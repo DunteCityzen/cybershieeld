@@ -1,30 +1,65 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <component :is="getNavbarComponent"></component>
+  <router-view></router-view>
+  <Footer />
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Navbar from './components/Navbar.vue'
+import AdminNavbar from './components/AdminNavbar.vue'
+import Footer from './components/Footer.vue'
+import { onMounted, ref } from 'vue'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
-nav {
-  padding: 30px;
+export default {
+  name: 'App',
+  components: {
+    Navbar,
+    AdminNavbar,
+    Footer
+  },
+  computed: {
+    getNavbarComponent() {
+      const currentRoute = this.$route.name
+      switch(currentRoute) {
+        case 'JobApplications':
+          return AdminNavbar
+        case 'ApplicantCV':
+          return AdminNavbar
+        case 'JobManagement':
+          return AdminNavbar
+        case 'UserManagement':
+          return AdminNavbar
+        case 'AdminDashboard':
+          return AdminNavbar
+        case 'AddJob':
+          return AdminNavbar
+        case 'RemoveJob':
+          return AdminNavbar
+        case 'ContactForms':
+          return AdminNavbar
+        case 'Users':
+          return AdminNavbar
+        case 'RemoveUser':
+          return AdminNavbar
+        default:
+          return Navbar
+      }
+    }
+  },
+  setup() {
+    const isLoggedIn = ref(false)
+    onMounted(() => {
+      const auth = getAuth()
+      onAuthStateChanged(auth, (user) => {
+        if(user) {
+          isLoggedIn.value = true
+        }
+        else {
+          isLoggedIn.value = false
+        }
+      })
+    })
+  }
 }
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+</script>
