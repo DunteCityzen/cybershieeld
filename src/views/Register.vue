@@ -48,8 +48,8 @@ export default {
                     quantity: 1
                 }
             ],
-            successURL: 'http://localhost:8080/regform?payment_success=true',
-            cancelURL: 'http://localhost:8080/register'
+            successURL: 'https://cybershieeld.vercel.app/regform?payment_success=true',
+            cancelURL: 'https://cybershieeld.vercel.app/register'
         }
     },
     methods: {
