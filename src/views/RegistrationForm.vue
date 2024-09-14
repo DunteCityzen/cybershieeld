@@ -1,6 +1,9 @@
 <template>
     <div class="page-wrapper p-t-45 p-b-50">
         <div class="wrapper wrapper--w790">
+            <div v-if="showFlag" class="flag">
+                acdf{NoPay_N_Gain}
+            </div>
             <div class="card card-5">
                 <div class="card-heading">
                     <h2 class="title">User Registration Form</h2>
@@ -88,6 +91,13 @@ export default {
     setup() {
         const router = useRouter()
         let userid
+
+        onMounted(() => {
+            const referrer = document.referrer
+            if (!referrer.includes('stripe')) {
+                showFlag.value = true
+            }
+        })
         
         const register = () => {
             const auth = getAuth()
@@ -131,7 +141,13 @@ export default {
 
         }
 
-        return { register } 
+        return { register, showFlag } 
     }
 }
 </script>
+<style>
+    .flag {
+    color: red;
+    font-weight: bold;
+}
+<style>
